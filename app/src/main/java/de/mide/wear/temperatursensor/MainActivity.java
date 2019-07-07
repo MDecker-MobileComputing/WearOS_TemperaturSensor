@@ -11,6 +11,13 @@ import android.util.Log;
 import android.widget.TextView;
 
 
+/**
+ * Activity zur Abfrage des Sensors für die Messung der aktuellen
+ * Umgebungstemperatur.
+ * <br><br>
+ *
+ * This file is licensed under the terms of the BSD 3-Clause License.
+ */
 public class MainActivity extends WearableActivity
                           implements SensorEventListener {
 
@@ -22,25 +29,35 @@ public class MainActivity extends WearableActivity
     /** Sensor-Objekt für Umgebungstemperatur. */
     protected Sensor _temperaturSensor = null;
 
+    /** In ScrollView-Element eingebettetes TextView-Element. */
+    protected TextView _textView = null;
 
+
+    /**
+     * Lifecycle-Methode, wird einmalig beim Start der Activity ausgefüllt.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        _textView = findViewById(R.id.hauptTextView);
 
-        holeTemperaturSensor();
+        holeSensorManagerUndTemperaturSensor();
 
         setAmbientEnabled(); // Enables Always-on
     }
 
 
-
-    protected void holeTemperaturSensor() {
+    /**
+     * Methode füllt die Member-Variablen {@link MainActivity#_sensorManager} und
+     * {@link MainActivity#_temperaturSensor}; es wird aber noch keine Temperatur-
+     * Abfrage gestartet!
+     */
+    protected void holeSensorManagerUndTemperaturSensor() {
 
         _sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
         if (_sensorManager == null) {
 
             zeigeDialog("Sensor-Manager nicht verfügbar.", true);
@@ -49,7 +66,6 @@ public class MainActivity extends WearableActivity
 
 
         _temperaturSensor = _sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-
         if (_temperaturSensor == null) {
 
             zeigeDialog("Temperatur-Sensor nicht verfügbar.", true);
@@ -57,6 +73,37 @@ public class MainActivity extends WearableActivity
         }
 
         Log.i(TAG4LOGGING, "Temperatur-Sensor gefunden: " + _temperaturSensor);
+    }
+
+
+    /**
+     * Methode startet asynchrone Abfrage der Temperatur indem die Activity-Instanz als
+     * Event-Handler-Objekt registriert wird.
+     */
+    protected void starteTemperaturAnfrage() {
+
+        _textView.setText("Abfrage Temperatur-Sensor ...");
+
+        if (_sensorManager == null) {
+
+            zeigeDialog("Interner Fehler: ", true);
+            return;
+        }
+        _sensorManager.registerListener(this, _temperaturSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        Log.i(TAG4LOGGING, "Temperatur-Anfrage gestartet.");
+    }
+
+
+    /**
+     * Temperaturabfrage wird "beendet" indem die Registrierung der Activity-Instanz
+     * als Sensor-Event-Handler aufgehoben wird.
+     */
+    protected void stoppeTemperaturAnfrage() {
+
+        _sensorManager.unregisterListener(this);
+
+        Log.i(TAG4LOGGING, "Temperatur-Abfrage beendet.");
     }
 
 
@@ -71,9 +118,7 @@ public class MainActivity extends WearableActivity
 
         super.onResume();
 
-        _sensorManager.registerListener(this, _temperaturSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-        Log.i(TAG4LOGGING, "Sensor-Event-Handler registriert.");
+        starteTemperaturAnfrage();
     }
 
 
@@ -85,9 +130,7 @@ public class MainActivity extends WearableActivity
     @Override
     public void onPause() {
 
-        _sensorManager.unregisterListener(this);
-
-        Log.i(TAG4LOGGING, "Registrierung Sensor-Event-Handler aufgehoben.");
+        stoppeTemperaturAnfrage();
 
         super.onPause();
     }
@@ -116,9 +159,22 @@ public class MainActivity extends WearableActivity
         // Anzahl Sensor-Werte hängt vom Typ des Sensors ab
         Log.i(TAG4LOGGING, "Anzahl Sensor-Werte in Event: " + sensorWerteArray.length);
 
-        float temperaturCelcius = sensorWerteArray[0];
+        float temperaturCelsius = sensorWerteArray[0];
 
-        zeigeDialog("Temperatur: " + temperaturCelcius + " Celsius", false);
+        stoppeTemperaturAnfrage();
+
+        temperaturDarstellen(temperaturCelsius);
+    }
+
+    /**
+     *
+     * @param temperaturCelsius  Darzustellender Temperatur-Wert in Grad Celsius
+     */
+    protected void temperaturDarstellen(float temperaturCelsius) {
+
+        double temperaturGerundet = ( (int)(temperaturCelsius * 10) ) / 10.0;
+
+        _textView.setText( "Umgebungs-Temperatur:\n\n" + temperaturGerundet + " °C");
     }
 
 
@@ -127,11 +183,40 @@ public class MainActivity extends WearableActivity
      *
      * @param sensor  Sensor, der Event ausgelöst hat (in unserem Fall der Temperatur-Sensor).
      *
-     * @param accuracy
+     * @param accuracy  Eine der Konstanten {@code SensorManager.SENSOR_STATUS_*}, z.B.
+     *                  {@link SensorManager#SENSOR_STATUS_ACCURACY_LOW}.
      */
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+        String statusStr = "";
+
+        switch (accuracy) {
+
+            case SensorManager.SENSOR_STATUS_ACCURACY_HIGH:
+                statusStr = "Hoch";
+                break;
+
+            case SensorManager.SENSOR_STATUS_ACCURACY_LOW:
+                statusStr = "Niedrig";
+                break;
+
+            case SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM:
+                statusStr = "Mittel";
+                break;
+
+            case SensorManager.SENSOR_STATUS_UNRELIABLE:
+                statusStr = "Unzuverlässig";
+                break;
+
+            case SensorManager.SENSOR_STATUS_NO_CONTACT:
+                statusStr = "Sensor hat keinen Kontakt";
+                break;
+
+            default: statusStr = "???";
+        }
+
+        Log.i(TAG4LOGGING, "Sensor-Genauigkeit: " + statusStr);
     }
 
 
@@ -140,7 +225,7 @@ public class MainActivity extends WearableActivity
      *
      * @param nachricht  Text, der im Dialog anzuzeigen ist.
      *
-     * @param istFehler {@code true} wenn es sich um eine Fehler-Meldung handelt.
+     * @param istFehler  {@code true} wenn es sich um eine Fehler-Meldung handelt.
      */
     protected void zeigeDialog(String nachricht, boolean istFehler) {
 
@@ -149,13 +234,15 @@ public class MainActivity extends WearableActivity
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
+        String titleString = "";
+
         if(istFehler) {
-
-            dialogBuilder.setTitle(getString(R.string.dialog_titel_fehlermeldung));
+            titleString = getString(R.string.dialog_titel_fehlermeldung);
         } else {
-
-            dialogBuilder.setTitle(getString(R.string.dialog_titel_ergebnis));
+            titleString = getString(R.string.dialog_titel_ergebnis);
         }
+
+        dialogBuilder.setTitle(titleString);
         dialogBuilder.setMessage(nachricht);
         dialogBuilder.setPositiveButton( getString(R.string.dialog_button_ok), null);
 
