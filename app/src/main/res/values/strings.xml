@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">Temperatur</string>
+
+
+    <string name="dialog_titel_fehlermeldung">Error</string>
+
+    <string name="dialog_titel_ergebnis">Result</string>
+
+    <string name="dialog_button_ok">Ok</string>
+
+</resources>
