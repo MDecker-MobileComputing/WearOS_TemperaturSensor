@@ -4,6 +4,7 @@ Android-Studio-Project for a WearOS-App which shows current ambient temperature 
  
 <br>
 
+
 ----
 # License
 
