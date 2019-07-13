@@ -3,10 +3,15 @@
     <string name="app_name">Temperatur</string>
 
 
+    <!-- Texte für TemperaturFragment -->
     <string name="dialog_titel_fehlermeldung">Error</string>
 
     <string name="dialog_titel_ergebnis">Result</string>
 
     <string name="dialog_button_ok">Ok</string>
+
+    
+    <!-- Texte für AboutFragment -->
+    <string name="text_about_app">Diese App ist unter der <i>BSD 3-Clause License</i> veröffentlicht.</string>
 
 </resources>

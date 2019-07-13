@@ -15,12 +15,21 @@
         android:layout_height="match_parent"
         app:boxedEdges="all">
 
+        <fragment
+            android:name="de.mide.wear.temperatursensor.AboutFragment"
+            android:id="@+id/fragment_flughafencode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_about" />
+
+        <!--
             <fragment
                 android:name="de.mide.wear.temperatursensor.TemperaturFragment"
                 android:id="@+id/fragment_flughafencode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout="@layout/fragment_temperatur" />
+        -->
 
     </ScrollView>
 
