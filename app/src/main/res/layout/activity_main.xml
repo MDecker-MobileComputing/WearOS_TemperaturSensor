@@ -2,21 +2,29 @@
 <android.support.wearable.view.drawer.WearableDrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mein_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:deviceIds="wear">
-    
-    <ScrollView
+
+    <android.support.wear.widget.BoxInsetLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/platzhalter_inhalt"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:boxedEdges="all">
 
-    </ScrollView>
+            <FrameLayout
+                android:id="@+id/platzhalter_inhalt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </ScrollView>
+
+    </android.support.wear.widget.BoxInsetLayout>
 
 
     <android.support.wearable.view.drawer.WearableNavigationDrawer
