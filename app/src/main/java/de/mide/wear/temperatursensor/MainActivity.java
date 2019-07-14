@@ -4,6 +4,7 @@ package de.mide.wear.temperatursensor;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.support.wear.widget.drawer.WearableDrawerController;
 import android.support.wear.widget.drawer.WearableNavigationDrawerView;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -12,18 +13,16 @@ import android.content.Context;
 import android.util.Log;
 import android.support.wear.widget.drawer.WearableDrawerLayout;
 import android.view.ViewTreeObserver;
-import android.view.Gravity;
 
 
 /**
- * Haupt-Activity der App.
+ * Haupt-Activity der App, konfiguriert den NavigationDrawer.
  * <br><br>
  *
  * This file is licensed under the terms of the BSD 3-Clause License.
  */
 public class MainActivity extends WearableActivity
-        implements ViewTreeObserver.OnGlobalLayoutListener,
-                   WearableNavigationDrawerView.OnItemSelectedListener {
+        implements WearableNavigationDrawerView.OnItemSelectedListener {
 
     public static final String TAG4LOGGING = "TemperaturMain";
 
@@ -54,7 +53,6 @@ public class MainActivity extends WearableActivity
         ft.replace(R.id.platzhalter_inhalt, tempFragment);
         ft.commit();
 
-        _wearableDrawerLayout         = findViewById(R.id.mein_drawer_layout    );
         _wearableNavigationDrawerView = findViewById(R.id.navigation_drawer_oben);
 
         MeinNavigationAdapter navigationAdapter = new MeinNavigationAdapter( this );
@@ -63,29 +61,13 @@ public class MainActivity extends WearableActivity
         _wearableNavigationDrawerView.addOnItemSelectedListener(this);
 
 
-        // siehe Methode onGlobalLayout()
-        ViewTreeObserver observer = _wearableDrawerLayout.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(this);
+        // Kurz die Schublade aufmachen, damit der Nutzer sich ihrer bewusst ist
+        WearableDrawerController drawerController = _wearableNavigationDrawerView.getController();
+        drawerController.peekDrawer();
 
         setAmbientEnabled(); // Enables Always-on
     }
 
-
-    /**
-     * Einzige Methode aus Interface {@link ViewTreeObserver.OnGlobalLayoutListener}.
-     * <br><br>
-     *
-     * Enthält Code, um kurz den NavigationDrawer zu zeigen, so dass der weiß, dass es
-     * ihn gibt.
-     */
-    @Override
-    public void onGlobalLayout() {
-        /*
-        _wearableDrawerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-        _wearableDrawerLayout.peekDrawer(Gravity.TOP);
-        _wearableDrawerLayout.peekDrawer(Gravity.BOTTOM);
-        */
-    }
 
     /**
      * Methode wird aufgerufen, wenn mit dem NavigationDrawer ein neues Fragment
