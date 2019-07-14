@@ -154,9 +154,13 @@ public class MainActivity extends WearableActivity
 
         /**
          * Methode liefert Icon für ein bestimmtes Schubladen-Element.
-         * Um sich die standardmäßig verfügbaren Icons anzuschauen kann man z.B.
-         * in den folgenden Ordner des Android-SDKs schauen:
-         * {@code SDK/platforms/android-28/data/res/drawable-xxxhdpi}.
+         * Es wurden die "Material Icons" von Google, die auch in Android Studio "eingebaut"
+         * sind, verwendet;
+         * siehe <a href="https://material.io/tools/icons/" target="_blank">hier</a> für alle diese Icons auf
+         * einer Webseite.
+         * Icons werden dem Projekt mit
+         * <a href="https://developer.android.com/studio/write/vector-asset-studio#running" target="_blank">Assert Studio</a>
+         * hinzugefügt.
          *
          * @param position  0-basierter Index für Element in der Schublade
          *
@@ -172,14 +176,15 @@ public class MainActivity extends WearableActivity
             switch (position) {
 
                 case 0: // TemperaturFragment
-                    drawableID = android.R.drawable.ic_input_get;
+                    drawableID = R.drawable.ic_home_black_24dp;
                     break;
 
                 case 1: // EinstellungenFragment
-                    drawableID = android.R.drawable.ic_menu_preferences;
+                    drawableID = R.drawable.ic_build_black_24dp;
+                    break;
 
                 case 2: // UeberFragment
-                    drawableID = android.R.drawable.ic_dialog_info;
+                    drawableID = R.drawable.ic_info_outline_black_24dp;
                     break;
 
                 default:
