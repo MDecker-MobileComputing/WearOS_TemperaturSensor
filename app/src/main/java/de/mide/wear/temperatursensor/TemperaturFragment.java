@@ -2,6 +2,7 @@ package de.mide.wear.temperatursensor;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -38,6 +39,12 @@ public class TemperaturFragment extends Fragment
     /** TextView-Element zur Anzeige Ergebnis */
     protected TextView _textView = null;
 
+    /**
+     * Objekt mit den Nutzer-Einstellungen von {@link EinstellungenFragment}, das in
+     * Methode {@link TemperaturFragment#onViewCreated(View, Bundle)} geladen wird.
+     */
+    protected SharedPreferences _sharedPreferences = null;
+
 
     /**
      * Layout-Datei für Fragment mit Inflater laden und View daraus erzeugen ("aufblasen").
@@ -68,6 +75,12 @@ public class TemperaturFragment extends Fragment
 
         _textView = view.findViewById(R.id.hauptTextView);
 
+
+        Context context = view.getContext();
+        _sharedPreferences = context.getSharedPreferences(
+                                    EinstellungenFragment.DATEINAME_PREFERENCES,
+                                    Context.MODE_PRIVATE );
+
         holeSensorManagerUndTemperaturSensor();
     }
 
@@ -94,7 +107,7 @@ public class TemperaturFragment extends Fragment
 
         if (_sensorManager == null) {
 
-            zeigeDialog("Interner Fehler: ", true);
+            zeigeFehlermeldungInDialog("Interner Fehler: ");
             return;
         }
         _sensorManager.registerListener(this, _temperaturSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -130,6 +143,7 @@ public class TemperaturFragment extends Fragment
         super.onPause();
     }
 
+
     /**
      * Methode füllt die Member-Variablen {@link TemperaturFragment#_sensorManager} und
      * {@link TemperaturFragment#_temperaturSensor}; es wird aber noch keine Temperatur-
@@ -140,7 +154,7 @@ public class TemperaturFragment extends Fragment
         _sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
         if (_sensorManager == null) {
 
-            zeigeDialog("Sensor-Manager nicht verfügbar.", true);
+            zeigeFehlermeldungInDialog("Sensor-Manager nicht verfügbar.");
             return;
         }
 
@@ -148,7 +162,7 @@ public class TemperaturFragment extends Fragment
         _temperaturSensor = _sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         if (_temperaturSensor == null) {
 
-            zeigeDialog("Temperatur-Sensor nicht verfügbar.", true);
+            zeigeFehlermeldungInDialog("Temperatur-Sensor nicht verfügbar.");
             return;
         }
 
@@ -170,7 +184,7 @@ public class TemperaturFragment extends Fragment
             String fehlerText =
                     "Interner Fehler: Sensor-Änderung für unerwarteten Sensor " +
                     quellSensor.getName() + " erhalten.";
-            zeigeDialog(fehlerText, true );
+            zeigeFehlermeldungInDialog(fehlerText);
 
             return;
         }
@@ -231,43 +245,80 @@ public class TemperaturFragment extends Fragment
 
 
     /**
-     * Methode zur Anzeige der Temperatur auf der UI.
+     * Methode zur Anzeige der Temperatur auf der UI, berechnet die Temperatur falls
+     * durch Nutzereinstellungen gewünscht in Grad Fahrenheit um; Formel Umrechung
+     * siehe z.B. <a href="https://www.wetteronline.de/wetterlexikon?topic=fahrenheit">hier</a>.
      *
      * @param temperaturCelsius  Darzustellender Temperatur-Wert in Grad Celsius
      */
     protected void temperaturDarstellen(float temperaturCelsius) {
 
-        double temperaturGerundet = ( (int)(temperaturCelsius * 10) ) / 10.0;
+        double temperaturUngerundet = 0.0;
+        String temperaturEinheit    = "";
 
-        _textView.setText( "Umgebungs-Temperatur:\n\n" + temperaturGerundet + " °C");
+        if (temperaturMussInFahrenheitUmgerechnetWerden()) {
+
+            temperaturUngerundet = 32 + (9.0/5.0) * temperaturCelsius;
+
+            temperaturEinheit = " °F";
+
+        } else { // Celsius beibehalten, nur runden
+
+            temperaturUngerundet = temperaturCelsius;
+
+            temperaturEinheit = " °C";
+        }
+
+        double temperaturGerundet = ( (int)(temperaturUngerundet * 10) ) / 10.0;
+
+        _textView.setText( "Umgebungs-Temperatur:\n\n" + temperaturGerundet + temperaturEinheit);
     }
 
 
     /**
-     * Hilfsmethode zur Anzeige von Text mit einem Dialog.
+     * Methode lieft {@code true} zurück, wenn der Nutzer im {@link EinstellungenFragment}
+     * ausgewählt hat, dass die Temperatur in Grad Fahrenheit statt Grad Celsius angezeigt
+     * werden sollen.
+     *
+     * @return  {@code true} gdw die Temperatur von Grad Celsius in Grad Fahrenheit umgerechnet
+     *          werden muss.
+     */
+    protected boolean temperaturMussInFahrenheitUmgerechnetWerden() {
+
+        String prefEinheit = _sharedPreferences.getString(
+                                    EinstellungenFragment.PREF_TEMP_EINHEIT,
+                                    EinstellungenFragment.PREF_TEMP_EINHEIT_CELSIUS
+                                );
+        // Celsius ist Default-Wert wenn kein Wert für Key PREF_TEMP_EINHEIT gefunden wird
+
+        if (prefEinheit.equalsIgnoreCase(EinstellungenFragment.PREF_TEMP_EINHEIT_FAHRENHEIT)) {
+
+            Log.i(TAG4LOGGING, "Temperatur muss in Fahrenheit umgerechnet werden.");
+            return true;
+
+        } else {
+
+            Log.i(TAG4LOGGING, "Temperatur muss NICHT in Fahrenheit umgerechnet werden.");
+            return false;
+        }
+    }
+
+
+    /**
+     * Hilfsmethode zur Anzeige von Fehlermeldung mit einem Dialog.
      *
      * @param nachricht  Text, der im Dialog anzuzeigen ist.
-     *
-     * @param istFehler  {@code true} wenn es sich um eine Fehler-Meldung handelt.
      */
-    protected void zeigeDialog(String nachricht, boolean istFehler) {
-
-        if (istFehler) { Log.e(TAG4LOGGING, nachricht); }
-
+    protected void zeigeFehlermeldungInDialog(String nachricht) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder( getContext() );
 
-        String titleString = "";
-
-        if(istFehler) {
-            titleString = getString(R.string.dialog_titel_fehlermeldung);
-        } else {
-            titleString = getString(R.string.dialog_titel_ergebnis);
-        }
+        String titleString = getString(R.string.dialog_titel_fehlermeldung);
+        String okString    = getString(R.string.dialog_button_ok);
 
         dialogBuilder.setTitle(titleString);
         dialogBuilder.setMessage(nachricht);
-        dialogBuilder.setPositiveButton( getString(R.string.dialog_button_ok), null);
+        dialogBuilder.setPositiveButton(okString, null);
 
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
