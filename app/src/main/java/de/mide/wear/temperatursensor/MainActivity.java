@@ -4,13 +4,13 @@ package de.mide.wear.temperatursensor;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.wearable.view.drawer.WearableNavigationDrawer;
+import android.support.wear.widget.drawer.WearableNavigationDrawerView;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.content.Context;
 import android.util.Log;
-import android.support.wearable.view.drawer.WearableDrawerLayout;
+import android.support.wear.widget.drawer.WearableDrawerLayout;
 import android.view.ViewTreeObserver;
 import android.view.Gravity;
 
@@ -22,7 +22,8 @@ import android.view.Gravity;
  * This file is licensed under the terms of the BSD 3-Clause License.
  */
 public class MainActivity extends WearableActivity
-        implements ViewTreeObserver.OnGlobalLayoutListener {
+        implements ViewTreeObserver.OnGlobalLayoutListener,
+                   WearableNavigationDrawerView.OnItemSelectedListener {
 
     public static final String TAG4LOGGING = "TemperaturMain";
 
@@ -30,7 +31,7 @@ public class MainActivity extends WearableActivity
     protected WearableDrawerLayout _wearableDrawerLayout = null;
 
     /** UI-Element für die "Schublade". */
-    protected WearableNavigationDrawer _wearableNavigationDrawer = null;
+    protected WearableNavigationDrawerView _wearableNavigationDrawerView = null;
 
     /** Referenz auf FragmentManager wird für Austausch von Fragmenten zur Laufzeit benötigt. */
     private FragmentManager _fragmentManager = null;
@@ -53,12 +54,13 @@ public class MainActivity extends WearableActivity
         ft.replace(R.id.platzhalter_inhalt, tempFragment);
         ft.commit();
 
-        _wearableDrawerLayout     = findViewById(R.id.mein_drawer_layout    );
-        _wearableNavigationDrawer = findViewById(R.id.navigation_drawer_oben);
+        _wearableDrawerLayout         = findViewById(R.id.mein_drawer_layout    );
+        _wearableNavigationDrawerView = findViewById(R.id.navigation_drawer_oben);
 
         MeinNavigationAdapter navigationAdapter = new MeinNavigationAdapter( this );
 
-        _wearableNavigationDrawer.setAdapter(navigationAdapter);
+        _wearableNavigationDrawerView.setAdapter(navigationAdapter);
+        _wearableNavigationDrawerView.addOnItemSelectedListener(this);
 
 
         // siehe Methode onGlobalLayout()
@@ -78,10 +80,44 @@ public class MainActivity extends WearableActivity
      */
     @Override
     public void onGlobalLayout() {
-
+        /*
         _wearableDrawerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
         _wearableDrawerLayout.peekDrawer(Gravity.TOP);
         _wearableDrawerLayout.peekDrawer(Gravity.BOTTOM);
+        */
+    }
+
+    /**
+     * Methode wird aufgerufen, wenn mit dem NavigationDrawer ein neues Fragment
+     * gewählt wurde.<br>
+     *
+     * Einzige Methode aus Interface {@link WearableNavigationDrawerView.OnItemSelectedListener}.
+     *
+     * @param position  0-basierter Index für Element in Schublade.
+     */
+    @Override
+    public void onItemSelected(int position) {
+
+        Fragment fragmentNeu = null;
+
+        switch (position) {
+
+            case 0:
+                fragmentNeu = new TemperaturFragment();
+                break;
+
+            case 1:
+                fragmentNeu = new AboutFragment();
+                break;
+
+            default:
+                fragmentNeu = new TemperaturFragment();
+                Log.w(TAG4LOGGING, "Unerwartetes Item von NavigationDrawer aufgerufen: " + position);
+        }
+
+        FragmentTransaction ft = _fragmentManager.beginTransaction();
+        ft.replace(R.id.platzhalter_inhalt, fragmentNeu);
+        ft.commit();
     }
 
 
@@ -91,7 +127,7 @@ public class MainActivity extends WearableActivity
      * als Prefix.
      */
     private final class MeinNavigationAdapter
-            extends WearableNavigationDrawer.WearableNavigationDrawerAdapter {
+            extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
 
         /** Kontext-Objekt der Activity, die diesen Objekt verwendet. */
         private Context __context = null;
@@ -163,38 +199,6 @@ public class MainActivity extends WearableActivity
             }
 
             return getDrawable(drawableID);
-        }
-
-
-        /**
-         * Methode wird aufgerufen, wenn mit dem NavigationDrawer ein neues Fragment
-         * gewählt wurde.
-         *
-         * @param position  0-basierter Index für Element in Schublade.
-         */
-        @Override
-        public void onItemSelected(int position) {
-
-            Fragment fragmentNeu = null;
-
-            switch (position) {
-
-                case 0:
-                    fragmentNeu = new TemperaturFragment();
-                break;
-
-                case 1:
-                    fragmentNeu = new AboutFragment();
-                break;
-
-                default:
-                    fragmentNeu = new TemperaturFragment();
-                    Log.w(TAG4LOGGING, "Unerwartetes Item von NavigationDrawer aufgerufen: " + position);
-            }
-
-            FragmentTransaction ft = _fragmentManager.beginTransaction();
-            ft.replace(R.id.platzhalter_inhalt, fragmentNeu);
-            ft.commit();
         }
 
 
