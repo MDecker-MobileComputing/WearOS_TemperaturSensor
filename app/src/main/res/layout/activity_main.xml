@@ -8,6 +8,15 @@
     android:layout_height="match_parent"
     tools:deviceIds="wear">
 
+    <!-- Ausziehbare Menü-Schublade mit navigationStyle="multiPage", damit für jeden Eintrag
+         eine eigene "Seite" -->
+    <android.support.wear.widget.drawer.WearableNavigationDrawerView
+        android:id="@+id/navigation_drawer_oben"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:navigationStyle="multiPage" />
+
+    <!-- Eigentlicher Inhalt -->
     <android.support.wear.widget.BoxInsetLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,11 +34,5 @@
         </ScrollView>
 
     </android.support.wear.widget.BoxInsetLayout>
-
-
-    <android.support.wear.widget.drawer.WearableNavigationDrawerView
-        android:id="@+id/navigation_drawer_oben"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </android.support.wear.widget.drawer.WearableDrawerLayout>

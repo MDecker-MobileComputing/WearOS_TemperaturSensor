@@ -12,11 +12,15 @@ import android.support.wearable.activity.WearableActivity;
 import android.content.Context;
 import android.util.Log;
 import android.support.wear.widget.drawer.WearableDrawerLayout;
-import android.view.ViewTreeObserver;
 
 
 /**
  * Haupt-Activity der App, konfiguriert den NavigationDrawer.
+ * <br><br>
+ *
+ * Fragment 1: TemperaturFragment<br>
+ * Fragment 2: EinstellungenFragment<br>
+ * Fragment 3: UeberFragment
  * <br><br>
  *
  * This file is licensed under the terms of the BSD 3-Clause License.
@@ -49,13 +53,14 @@ public class MainActivity extends WearableActivity
 
         Fragment tempFragment = new TemperaturFragment();
 
+        // Fragment einsetzen
         FragmentTransaction ft = _fragmentManager.beginTransaction();
         ft.replace(R.id.platzhalter_inhalt, tempFragment);
         ft.commit();
 
         _wearableNavigationDrawerView = findViewById(R.id.navigation_drawer_oben);
 
-        MeinNavigationAdapter navigationAdapter = new MeinNavigationAdapter( this );
+        MeinNavigationAdapter navigationAdapter = new MeinNavigationAdapter();
 
         _wearableNavigationDrawerView.setAdapter(navigationAdapter);
         _wearableNavigationDrawerView.addOnItemSelectedListener(this);
@@ -70,8 +75,8 @@ public class MainActivity extends WearableActivity
 
 
     /**
-     * Methode wird aufgerufen, wenn mit dem NavigationDrawer ein neues Fragment
-     * gewählt wurde.<br>
+     * Methode wird aufgerufen, wenn mit dem NavigationDrawer ein neues Fragment gewählt wurde.
+     * <br>
      *
      * Einzige Methode aus Interface {@link WearableNavigationDrawerView.OnItemSelectedListener}.
      *
@@ -89,7 +94,11 @@ public class MainActivity extends WearableActivity
                 break;
 
             case 1:
-                fragmentNeu = new AboutFragment();
+                fragmentNeu = new EinstellungenFragment();
+                break;
+
+            case 2:
+                fragmentNeu = new UeberFragment();
                 break;
 
             default:
@@ -116,20 +125,9 @@ public class MainActivity extends WearableActivity
 
 
         /**
-         * Konstruktor der inneren Klasse.
-         *
-         * @param context  Kontext-Objekt der Activity, die dieses Objekt verwendet.
-         */
-        public MeinNavigationAdapter(Context context) {
-
-            __context         = context;
-        }
-
-
-        /**
          * Methode zur Abfrage des Anzeige-Texts für ein bestimmtes Element in der Schublade.
          *
-         * @param position  Index in der Schublade
+         * @param position  0-basierter Index für Element in der Schublade
          *
          * @return  Anzeige-Text für Schubladen-Eintrag.
          */
@@ -142,6 +140,9 @@ public class MainActivity extends WearableActivity
                     return "Temperatur";
 
                 case 1:
+                    return "Einstellungen";
+
+                case 2:
                     return "Über die App";
 
                 default:
@@ -157,22 +158,27 @@ public class MainActivity extends WearableActivity
          * in den folgenden Ordner des Android-SDKs schauen:
          * {@code SDK/platforms/android-28/data/res/drawable-xxxhdpi}.
          *
-         * @param position  0-basierter Index für Element in Schublade
+         * @param position  0-basierter Index für Element in der Schublade
          *
          * @return  Icon für Element in Schublade
          */
         @Override
         public Drawable getItemDrawable(int position) {
 
+            Log.i(TAG4LOGGING, "Icon für Position: " + position);
+
             int drawableID = android.R.drawable.ic_dialog_alert;
 
             switch (position) {
 
                 case 0: // TemperaturFragment
-                    drawableID = android.R.drawable.star_on;
+                    drawableID = android.R.drawable.ic_input_get;
                     break;
 
-                case 1: // AboutFragment
+                case 1: // EinstellungenFragment
+                    drawableID = android.R.drawable.ic_menu_preferences;
+
+                case 2: // UeberFragment
                     drawableID = android.R.drawable.ic_dialog_info;
                     break;
 
@@ -187,12 +193,12 @@ public class MainActivity extends WearableActivity
         /**
          * Methode zur Abfrage der Anzahl der Element/Fragmente in der Schublade.
          *
-         * @return Anzahl der Fragmente in der Schublade.
+         * @return  Anzahl der Elemente in der Schublade.
          */
         @Override
         public int getCount() {
 
-            return 2;
+            return 3;
         }
 
     } // Ende der innere Klasse MeinNavigationAdapter

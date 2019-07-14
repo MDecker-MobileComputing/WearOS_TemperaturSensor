@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EinstellungenFragment">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/titel_einstellungen"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingBottom="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/frage_temp_einheit"
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup_temperatureinheit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <RadioButton
+            android:id="@+id/radiobutton_celsius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/option_celsius" />
+
+        <RadioButton
+            android:id="@+id/radiobutton_fahrenheit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/option_fahrenheit" />
+
+    </RadioGroup>
+
+</LinearLayout>

@@ -11,7 +11,16 @@
     <string name="dialog_button_ok">Ok</string>
 
 
-    <!-- Texte für AboutFragment -->
+    <!-- Texte für EinstellungenFragment -->
+
+    <string name="titel_einstellungen">Einstellungen</string>
+
+    <string name="frage_temp_einheit">In welcher Einheit soll die Temperatur angezeigt werden?</string>
+
+    <string name="option_celsius"   >Celsius</string>
+    <string name="option_fahrenheit">Fahrenheit</string>
+
+    <!-- Texte für UeberFragment -->
     <string name="text_about_app">
         Diese App ist unter der <i>BSD 3-Clause License</i> veröffentlicht.
         Sie kann die aktuelle Umgebungstemperatur vom in der Smartwatch eingebauten Sensor

@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 
 /**
- * Fragment für Auslesen der Temperatur.
+ * Fragment für Auslesen der Temperatur von in Smartwatch eingebauten Sensor.
  * <br><br>
  *
  * This project is licensed under the terms of the BSD 3-Clause License.
@@ -54,8 +54,8 @@ public class TemperaturFragment extends Fragment
 
 
     /**
-     * Diese Methode entspricht der Methode {@code onCreate(Bundle)}.
-     * von Activities.
+     * Diese Methode entspricht der Methode {@code onCreate(Bundle)} in der Klasse
+     * {@link android.app.Activity}
      *
      * @param view Referenz auf View-Objekt, das von Methode
      *             {@link android.app.Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
@@ -159,7 +159,7 @@ public class TemperaturFragment extends Fragment
     /**
      * Eine der beiden Methode aus dem Interface {@link SensorEventListener}.
      *
-     * @param event  Durch Änderung Sensor-Wert ausgelöstet Event.
+     * @param event  Sensor-Event mit neuem Wert.
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -167,8 +167,9 @@ public class TemperaturFragment extends Fragment
         Sensor quellSensor = event.sensor;
         if (quellSensor != _temperaturSensor) {
 
-            String fehlerText = "Interner Fehler: Sensor-Änderung für unerwarteten Sensor " + quellSensor.getName();
-
+            String fehlerText =
+                    "Interner Fehler: Sensor-Änderung für unerwarteten Sensor " +
+                    quellSensor.getName() + " erhalten.";
             zeigeDialog(fehlerText, true );
 
             return;

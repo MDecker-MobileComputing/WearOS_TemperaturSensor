@@ -10,25 +10,24 @@ import android.view.ViewGroup;
 
 
 /**
- * Fragment für die "About"-Info, z.B. Copyright.
+ * Fragment für die Informationen <b>über</b> die App selbst, z.B. Copyright-Info.
  * <br><br>
  *
  * This project is licensed under the terms of the BSD 3-Clause License.
  */
-public class AboutFragment extends Fragment {
+public class UeberFragment extends Fragment {
 
     /**
      * Layout-Datei für Fragment mit Inflater laden und View daraus erzeugen ("aufblasen").
      */
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(@NonNull  LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate( R.layout.fragment_about, container, false );
+        return inflater.inflate( R.layout.fragment_ueber, container, false );
         // attachToRoot=false
     }
-
 
 }
