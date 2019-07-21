@@ -26,12 +26,12 @@ import android.support.wear.widget.drawer.WearableDrawerLayout;
  * This file is licensed under the terms of the BSD 3-Clause License.
  */
 public class MainActivity extends WearableActivity
-        implements WearableNavigationDrawerView.OnItemSelectedListener {
+                          implements WearableNavigationDrawerView.OnItemSelectedListener {
 
     public static final String TAG4LOGGING = "TemperaturMain";
 
     /** UI-Element für die "Schublade". */
-    protected WearableNavigationDrawerView _wearableNavigationDrawerView = null;
+    private WearableNavigationDrawerView _wearableNavigationDrawerView = null;
 
     /** Referenz auf FragmentManager wird für Austausch von Fragmenten zur Laufzeit benötigt. */
     private FragmentManager _fragmentManager = null;
@@ -153,8 +153,8 @@ public class MainActivity extends WearableActivity
          * Methode liefert Icon für ein bestimmtes Schubladen-Element.
          * Es wurden die "Material Icons" von Google, die auch in Android Studio "eingebaut"
          * sind, verwendet;
-         * siehe <a href="https://material.io/tools/icons/" target="_blank">hier</a> für alle diese Icons auf
-         * einer Webseite.
+         * siehe <a href="https://material.io/tools/icons/" target="_blank">hier</a> für alle diese
+         * Icons auf einer Webseite.
          * Icons werden dem Projekt mit
          * <a href="https://developer.android.com/studio/write/vector-asset-studio#running" target="_blank">Assert Studio</a>
          * hinzugefügt.
