@@ -9,7 +9,6 @@ import android.support.wear.widget.drawer.WearableNavigationDrawerView;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
-import android.content.Context;
 import android.util.Log;
 
 
@@ -116,10 +115,6 @@ public class MainActivity extends WearableActivity
      */
     private final class MeinNavigationAdapter
             extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
-
-        /** Kontext-Objekt der Activity, die diesen Objekt verwendet. */
-        private Context __context = null;
-
 
         /**
          * Methode zur Abfrage des Anzeige-Texts für ein bestimmtes Element in der Schublade.
