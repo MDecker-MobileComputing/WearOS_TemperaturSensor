@@ -78,7 +78,7 @@ public class TemperaturFragment extends Fragment
 
         Context context = view.getContext();
         _sharedPreferences = context.getSharedPreferences(
-                                    EinstellungenFragment.DATEINAME_PREFERENCES,
+                                    EinstellungenFragment.PREF_DATEINAME,
                                     Context.MODE_PRIVATE );
 
         holeSensorManagerUndTemperaturSensor();

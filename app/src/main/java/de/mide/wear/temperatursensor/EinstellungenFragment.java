@@ -30,7 +30,7 @@ public class EinstellungenFragment
 
 
     /** Dateiname für {@link SharedPreferences}, die von dieser App verwendet werden. */
-    public static final String DATEINAME_PREFERENCES = "TempPrefs";
+    public static final String PREF_DATEINAME = "TempPrefs";
 
     /**
      * Key für {@link SharedPreferences}, unter dem die vom Nutzer gewählte Einheit
@@ -59,7 +59,7 @@ public class EinstellungenFragment
     protected RadioButton _radioButtonFahrenheit = null;
 
     /**
-     * Einstellungen mit Datei-Name {@link #DATEINAME_PREFERENCES}, mit Zugriffs-Modus
+     * Einstellungen mit Datei-Name {@link #PREF_DATEINAME}, mit Zugriffs-Modus
      * {@link Context#MODE_PRIVATE}, also hat nur diese App selbst Zugriff darauf.
      */
     protected SharedPreferences _sharedPreferences = null;
@@ -111,7 +111,7 @@ public class EinstellungenFragment
      */
     protected void sharedPrefAuswerten(Context context) {
 
-        _sharedPreferences = context.getSharedPreferences(DATEINAME_PREFERENCES,
+        _sharedPreferences = context.getSharedPreferences(PREF_DATEINAME,
                                                           Context.MODE_PRIVATE );
 
         String prefEinheit = _sharedPreferences.getString(PREF_KEY_TEMP_EINHEIT,
