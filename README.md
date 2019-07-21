@@ -16,7 +16,7 @@ Android-Studio-Project for a WearOS-App which shows current ambient temperature 
 
 <br>
 
-Screenshots were taken from emulator; on each the NavigationDrawer is pulled out a bit.
+Screenshots were taken from emulator; on each the [Navigation Drawer](https://designguidelines.withgoogle.com/wearos/components/navigation-drawer.html) (area with three dots on upper edge of the display) is opened a bit.
 
 <br>
 
