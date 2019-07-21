@@ -10,14 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
 /**
- * Fragment, in dem der Nutzer bestimmte Einstellungen vornehmen kann.
+ * Fragment, in dem der Nutzer einstellen kann, ob er das Ergebnis in der Einheit
+ * "Grad Celsius" oder "Grad Fahrenheit" angezeigt bekommen möchte.
  * <br><br>
  *
  * This project is licensed under the terms of the BSD 3-Clause License.
@@ -27,6 +27,7 @@ public class EinstellungenFragment
              implements OnCheckedChangeListener {
 
     public static final String TAG4LOGGING = "EinstellungenFragment";
+
 
     /** Dateiname für {@link SharedPreferences}, die von dieser App verwendet werden. */
     public static final String DATEINAME_PREFERENCES = "TempPrefs";
@@ -79,11 +80,12 @@ public class EinstellungenFragment
 
     /**
      * Diese Methode entspricht der Methode {@code onCreate(Bundle)} in der Klasse
-     * {@link android.app.Activity}
+     * {@link android.app.Activity}. Es wird auch der in den SharedPreferences gespeicherte
+     * Zustand wieder hergestellt.
      *
-     * @param view Referenz auf View-Objekt, das von Methode
-     *             {@link android.app.Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
-     *             mit Inflater erstellt und mit return zurückgegeben wurde.
+     * @param view  Referenz auf View-Objekt, das von Methode
+     *              {@link android.app.Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     *              mit Inflater erstellt und mit return zurückgegeben wurde.
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -101,8 +103,8 @@ public class EinstellungenFragment
 
 
     /**
-     * Methode liest derzeitigen Wert in SharedPreferences für diese App aus und stellt in
-     * Checkbox entsprechend ein.
+     * Methode liest derzeitigen Wert in SharedPreferences für diese App aus und stellt
+     * in Checkbox entsprechend ein.
      *
      * @param context  Context der Activity
      */
