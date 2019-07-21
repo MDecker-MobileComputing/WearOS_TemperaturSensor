@@ -138,7 +138,7 @@ public class MainActivity extends WearableActivity
                     return "Über die App";
 
                 default:
-                    Log.w(TAG4LOGGING, "Unerwarteten Item von NavigationDrawer aufgerufen: " + position);
+                    Log.w(TAG4LOGGING, "Unerwartetes Item von NavigationDrawer aufgerufen: " + position);
                     return "???";
             }
         }
