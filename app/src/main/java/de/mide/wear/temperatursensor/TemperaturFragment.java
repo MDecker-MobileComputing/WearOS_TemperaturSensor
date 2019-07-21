@@ -103,16 +103,20 @@ public class TemperaturFragment extends Fragment
      */
     protected void starteTemperaturAnfrage() {
 
-        _textView.setText("Abfrage Temperatur-Sensor ...");
-
         if (_sensorManager == null) {
-
-            zeigeFehlermeldungInDialog("Interner Fehler: ");
+            Log.w(TAG4LOGGING, "Sensor-Manager nicht gefunden, keine Temperatur-Abfrage möglich.");
             return;
         }
+        if (_temperaturSensor == null) {
+            Log.w(TAG4LOGGING, "Sensor-Objekt nicht gefunden, keine Temperatur-Abfrage möglich.");
+            return;
+        }
+
         _sensorManager.registerListener(this, _temperaturSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         Log.i(TAG4LOGGING, "Temperatur-Anfrage gestartet.");
+
+        _textView.setText("Abfrage Temperatur-Sensor ...");
     }
 
 
