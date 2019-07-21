@@ -4,6 +4,10 @@ Android-Studio-Project for a WearOS-App which shows current ambient temperature 
  
 <br>
 
+Identifiers (names for classes, variables and methods), UI texts and (JavaDoc) comments are in German only.
+
+<br>
+
 ----
 
 # Screenshots #
