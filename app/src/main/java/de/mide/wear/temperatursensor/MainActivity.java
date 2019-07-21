@@ -30,9 +30,6 @@ public class MainActivity extends WearableActivity
 
     public static final String TAG4LOGGING = "TemperaturMain";
 
-    /** Layout, das den NavigationDrawer ("Schublade") enthält. */
-    protected WearableDrawerLayout _wearableDrawerLayout = null;
-
     /** UI-Element für die "Schublade". */
     protected WearableNavigationDrawerView _wearableNavigationDrawerView = null;
 
