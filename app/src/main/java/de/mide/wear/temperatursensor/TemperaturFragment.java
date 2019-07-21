@@ -290,12 +290,12 @@ public class TemperaturFragment extends Fragment
     protected boolean temperaturMussInFahrenheitUmgerechnetWerden() {
 
         String prefEinheit = _sharedPreferences.getString(
-                                    EinstellungenFragment.PREF_TEMP_EINHEIT,
-                                    EinstellungenFragment.PREF_TEMP_EINHEIT_CELSIUS
+                                    EinstellungenFragment.PREF_KEY_TEMP_EINHEIT,
+                                    EinstellungenFragment.PREF_VALUE_TEMP_EINHEIT_CELSIUS
                                 );
-        // Celsius ist Default-Wert wenn kein Wert für Key PREF_TEMP_EINHEIT gefunden wird
+        // Celsius ist Default-Wert wenn kein Wert für Key PREF_KEY_TEMP_EINHEIT gefunden wird
 
-        if (prefEinheit.equalsIgnoreCase(EinstellungenFragment.PREF_TEMP_EINHEIT_FAHRENHEIT)) {
+        if (prefEinheit.equalsIgnoreCase(EinstellungenFragment.PREF_VALUE_TEMP_EINHEIT_FAHRENHEIT)) {
 
             Log.i(TAG4LOGGING, "Temperatur muss in Fahrenheit umgerechnet werden.");
             return true;

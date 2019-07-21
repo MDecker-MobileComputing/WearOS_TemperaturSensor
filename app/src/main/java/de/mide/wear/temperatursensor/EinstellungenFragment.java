@@ -34,22 +34,23 @@ public class EinstellungenFragment
 
     /**
      * Key für {@link SharedPreferences}, unter dem die vom Nutzer gewählte Einheit
-     * ({@link #PREF_TEMP_EINHEIT_CELSIUS} oder {@link #PREF_TEMP_EINHEIT_FAHRENHEIT}) für
-     * die Anzeige der Temperatur abgewählt wird.
+     * ({@link #PREF_VALUE_TEMP_EINHEIT_CELSIUS} oder {@link #PREF_VALUE_TEMP_EINHEIT_FAHRENHEIT})
+     * für die Anzeige der Temperatur abgewählt wird.
      */
-    public static final String PREF_TEMP_EINHEIT = "temp_einheit";
+    public static final String PREF_KEY_TEMP_EINHEIT = "temp_einheit";
 
     /**
-     * Wert für Preference mit Key {@link #PREF_TEMP_EINHEIT}, wenn Nutzer Temperatur in
+     * Wert für Preference mit Key {@link #PREF_KEY_TEMP_EINHEIT}, wenn Nutzer Temperatur in
      * Grad Celsius angezeigt bekommen möchte.
      */
-    public static final String PREF_TEMP_EINHEIT_CELSIUS = "celsius";
+    public static final String PREF_VALUE_TEMP_EINHEIT_CELSIUS = "celsius";
 
     /**
-     * Wert für Preference mit Key {@link #PREF_TEMP_EINHEIT}, wenn Nutzer Temperatur in
+     * Wert für Preference mit Key {@link #PREF_KEY_TEMP_EINHEIT}, wenn Nutzer Temperatur in
      * Grad Fahrenheit angezeigt bekommen möchte.
      */
-    public static final String PREF_TEMP_EINHEIT_FAHRENHEIT = "fahrenheit";
+    public static final String PREF_VALUE_TEMP_EINHEIT_FAHRENHEIT = "fahrenheit";
+
 
     /** RadioButton für Anzeige Temperatur in Grad Celsius. */
     protected RadioButton _radioButtonCelsius = null;
@@ -113,20 +114,20 @@ public class EinstellungenFragment
         _sharedPreferences = context.getSharedPreferences(DATEINAME_PREFERENCES,
                                                           Context.MODE_PRIVATE );
 
-        String prefEinheit = _sharedPreferences.getString(PREF_TEMP_EINHEIT,
-                                                          PREF_TEMP_EINHEIT_CELSIUS
+        String prefEinheit = _sharedPreferences.getString(PREF_KEY_TEMP_EINHEIT,
+                PREF_VALUE_TEMP_EINHEIT_CELSIUS
                                     );
-        // Celsius ist Default-Wert wenn kein Wert für Key PREF_TEMP_EINHEIT gefunden wird
+        // Celsius ist Default-Wert wenn kein Wert für Key PREF_KEY_TEMP_EINHEIT gefunden wird
 
         Log.i(TAG4LOGGING, "Einheit für Temperatur ausgelesen: \"" + prefEinheit + "\"");
 
         switch(prefEinheit) {
 
-            case PREF_TEMP_EINHEIT_CELSIUS:
+            case PREF_VALUE_TEMP_EINHEIT_CELSIUS:
                 _radioButtonCelsius.setChecked(true);
             break;
 
-            case PREF_TEMP_EINHEIT_FAHRENHEIT:
+            case PREF_VALUE_TEMP_EINHEIT_FAHRENHEIT:
                 _radioButtonFahrenheit.setChecked(true);
             break;
 
@@ -151,11 +152,11 @@ public class EinstellungenFragment
 
         if (checkedId == _radioButtonCelsius.getId()) {
 
-            neuerWertPrefTemp = PREF_TEMP_EINHEIT_CELSIUS;
+            neuerWertPrefTemp = PREF_VALUE_TEMP_EINHEIT_CELSIUS;
 
         } else if (checkedId == _radioButtonFahrenheit.getId()) {
 
-            neuerWertPrefTemp = PREF_TEMP_EINHEIT_FAHRENHEIT;
+            neuerWertPrefTemp = PREF_VALUE_TEMP_EINHEIT_FAHRENHEIT;
 
         } else {
 
@@ -167,7 +168,7 @@ public class EinstellungenFragment
 
         // Neuen Wert in SharedPreferences-Objekt schreiben
         SharedPreferences.Editor editor = _sharedPreferences.edit();
-        editor.putString(PREF_TEMP_EINHEIT, neuerWertPrefTemp);
+        editor.putString(PREF_KEY_TEMP_EINHEIT, neuerWertPrefTemp);
         editor.commit();
 
 
