@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.content.Context;
 import android.util.Log;
-import android.support.wear.widget.drawer.WearableDrawerLayout;
 
 
 /**
@@ -29,6 +28,7 @@ public class MainActivity extends WearableActivity
                           implements WearableNavigationDrawerView.OnItemSelectedListener {
 
     public static final String TAG4LOGGING = "TemperaturMain";
+
 
     /** UI-Element für die "Schublade". */
     private WearableNavigationDrawerView _wearableNavigationDrawerView = null;
