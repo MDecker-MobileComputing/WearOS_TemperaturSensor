@@ -115,8 +115,7 @@ public class EinstellungenFragment
                                                           Context.MODE_PRIVATE );
 
         String prefEinheit = _sharedPreferences.getString(PREF_KEY_TEMP_EINHEIT,
-                PREF_VALUE_TEMP_EINHEIT_CELSIUS
-                                    );
+                                                          PREF_VALUE_TEMP_EINHEIT_CELSIUS );                                    
         // Celsius ist Default-Wert wenn kein Wert für Key PREF_KEY_TEMP_EINHEIT gefunden wird
 
         Log.i(TAG4LOGGING, "Einheit für Temperatur ausgelesen: \"" + prefEinheit + "\"");
