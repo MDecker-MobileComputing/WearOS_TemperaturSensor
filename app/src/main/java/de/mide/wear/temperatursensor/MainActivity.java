@@ -119,7 +119,7 @@ public class MainActivity extends WearableActivity
         /**
          * Methode zur Abfrage des Anzeige-Texts für ein bestimmtes Element in der Schublade.
          *
-         * @param position  0-basierter Index für Element in der Schublade
+         * @param position  0-basierter Index für Element in der Schublade.
          *
          * @return  Anzeige-Text für Schubladen-Eintrag.
          */
@@ -154,9 +154,9 @@ public class MainActivity extends WearableActivity
          * <a href="https://developer.android.com/studio/write/vector-asset-studio#running" target="_blank">Assert Studio</a>
          * hinzugefügt.
          *
-         * @param position  0-basierter Index für Element in der Schublade
+         * @param position  0-basierter Index für Element in der Schublade.
          *
-         * @return  Icon für Element in Schublade
+         * @return  Icon für Element in Schublade.
          */
         @Override
         public Drawable getItemDrawable(int position) {
@@ -190,7 +190,8 @@ public class MainActivity extends WearableActivity
         /**
          * Methode zur Abfrage der Anzahl der Element/Fragmente in der Schublade.
          *
-         * @return  Anzahl der Elemente in der Schublade.
+         * @return  Anzahl der Elemente in der Schublade; gibt immer 3 zurück, weil
+         *          die App drei Fragmente hat.
          */
         @Override
         public int getCount() {
@@ -198,6 +199,6 @@ public class MainActivity extends WearableActivity
             return 3;
         }
 
-    } // Ende der innere Klasse MeinNavigationAdapter
+    } // Ende innere Klasse MeinNavigationAdapter
 
 }
