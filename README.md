@@ -1,5 +1,7 @@
 # WearOS-App: "Temperatur-Sensor" #
 
+<br>
+
 Android-Studio-Project for a WearOS-App which shows current ambient temperature as measured by a built-in sensor.
  
 <br>
@@ -10,7 +12,9 @@ Identifiers (names for classes, variables and methods), UI texts and (JavaDoc) c
 
 ----
 
-# Screenshots #
+## Screenshots ##
+
+<br>
 
 ![Screenshot from main screen](screenshot_1.png)  ![Screenshot from settings screen](screenshot_2.png)
 
@@ -26,6 +30,10 @@ Screenshots were taken from emulator; on each the [Navigation Drawer](https://de
 
 ----
 
-# License #
+## License ##
+
+<br>
 
 See the [LICENSE file](LICENSE.md) for license rights and limitations (BSD 3-Clause License).
+
+<br>
